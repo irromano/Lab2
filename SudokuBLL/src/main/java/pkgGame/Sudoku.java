@@ -18,7 +18,7 @@ public class Sudoku extends LatinSquare {
 		super.setLatinSquare(puzzle);
 		iSize = super.getLatinSquare()[0].length;
 		iSqrtSize = (int) Math.sqrt(super.getLatinSquare()[0].length);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	protected int[][] getPuzzle() {
@@ -32,12 +32,12 @@ public class Sudoku extends LatinSquare {
 	}
 	
 	public int[] getRegion(int r) { // pass in a given region, get back a 1-dim array of region
-		int[] reg = new int [super.getLatinSquare().length];
+		int[] reg = new int [iSize];
 		
 		int i = ( r % iSqrtSize)* iSqrtSize;
 		int j = (r / iSqrtSize)* iSqrtSize;
 		int iMax = i + iSqrtSize;
-		int jMax = i + iSqrtSize;
+		int jMax = j + iSqrtSize;
 		int iCnt=0;
 		
 		for (; j<jMax ; j++) {
