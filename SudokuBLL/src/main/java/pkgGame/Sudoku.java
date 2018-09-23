@@ -6,7 +6,6 @@ import pkgHelper.LatinSquare;
 
 public class Sudoku extends LatinSquare {	
 
-	private int[][] puzzle;	
 	private int iSize;	// Lenght of the width/height of the Sudoku puzzle
 	private int iSqrtSize; // SquareRoot of the iSize. If the iSize is 9, iSqrtSize will be calcd as 3
 
@@ -15,14 +14,16 @@ public class Sudoku extends LatinSquare {
 		//  Auto-generated constructor stub
 	//}
 
-	public Sudoku(int[][] latinSquare) {
-		super(latinSquare);
+	public Sudoku(int[][] puzzle) {
+		super.setLatinSquare(puzzle);
+		iSize = super.getLatinSquare()[0].length;
+		iSqrtSize = (int) Math.sqrt(super.getLatinSquare()[0].length);
 		// TODO Auto-generated constructor stub
 	}
 
 	protected int[][] getPuzzle() {
 		// TODO
-		return puzzle;
+		return super.getLatinSquare();
 	}
 
 	protected int[] getRegion(int iCol, int iRow) { // figure out what region you're in based on iCol and iRow
@@ -31,8 +32,23 @@ public class Sudoku extends LatinSquare {
 	}
 	
 	public int[] getRegion(int r) { // pass in a given region, get back a 1-dim array of region
-		// TODO
-		return null; // 1-dim array from given region
+		int[] reg = new int [super.getLatinSquare().length];
+		
+		int i = ( r % iSqrtSize)* iSqrtSize;
+		int j = (r / iSqrtSize)* iSqrtSize;
+		int iMax = i + iSqrtSize;
+		int jMax = i + iSqrtSize;
+		int iCnt=0;
+		
+		for (; j<jMax ; j++) {
+			for (i=(r% iSqrtSize)* iSqrtSize ; i<iMax;i++) {
+				reg[iCnt++]= super.getLatinSquare()[j][i];
+			}
+		}
+		return reg;
+		
+		
+		 // 1-dim array from given region
 		
 	}
 	
