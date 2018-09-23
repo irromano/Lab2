@@ -22,7 +22,6 @@ public class Sudoku extends LatinSquare {
 	}
 
 	public int[][] getPuzzle() {
-		// TODO
 		return super.getLatinSquare();
 	}
 
@@ -67,18 +66,79 @@ public class Sudoku extends LatinSquare {
 	}
 	
 	public boolean isPartialSudoku() { // return true if it's a LatinSquare, if each element in first row is in each region, if there is at least one zero
-		// TODO
-		return false; // TODO
+		boolean isPartialSudoku = true;
+		
+		for (int i = 0; i < iSize; i++) {
+			if (hasDuplicatesPartial(super.getRow(i)))
+				return false;
+		}
+
+		for (int j = 0; j < iSize; j++) {
+			if (hasDuplicatesPartial(super.getColumn(j)))
+				return false;
+		}
+		
+		for (int k = 0; k < iSize; k++) {
+			if (hasDuplicatesPartial(getRegion(k)))
+				return false;
+		}
+		
+		if (!super.ContainsZero())
+			isPartialSudoku = false;
+		
+		for (int i = 1; i < iSize; i++) {
+			if (iSize != super.getLatinSquare()[i].length) {
+				return false;
+			}
+		}
+		
+		return isPartialSudoku;
 	}
 	
 	public boolean isSudoku() { // is a partial sudoku and has no zeros
-		// TODO
-		return false; //TODO
+		boolean isSudoku = true;
+		if (!super.isLatinSquare())
+			return false;
+		
+		for (int i = 0; i < iSize; i++) {
+			if (super.hasDuplicates(getRegion(i)))
+				return false;
+		}
+		
+		for (int j = 1; j < iSize; j++) {
+
+			if (!super.hasAllValues(getRegion(0), getRegion(j))) {
+				return false;
+			}
+		}
+		
+		if (super.ContainsZero())
+			return false;
+		
+		
+		return isSudoku; //TODO
 	}
 	
 	public boolean isValidValue(int iCol, int iRow, int iValue) { // test to see if given value would work for a given column / row
 		// TODO
 		return false; //TODO
+	}
+	
+	public boolean hasDuplicatesPartial(int[] arr) {
+
+		// TODO: Return 'true' if any element in arr is duplicate
+
+		boolean hasDuplicates = false;
+		int[] sortedArray = Arrays.copyOf(arr, arr.length);
+		Arrays.sort(sortedArray);
+
+		for (int i = 0; i < sortedArray.length - 1; i++) {
+			if (sortedArray[i] == sortedArray[i + 1] & sortedArray[i] != 0) {
+				hasDuplicates = true;
+				break;
+			}
+		}
+		return hasDuplicates;
 	}
 	
 
