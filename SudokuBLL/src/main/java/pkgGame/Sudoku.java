@@ -21,14 +21,28 @@ public class Sudoku extends LatinSquare {
 
 	}
 
-	protected int[][] getPuzzle() {
+	public int[][] getPuzzle() {
 		// TODO
 		return super.getLatinSquare();
 	}
 
-	protected int[] getRegion(int iCol, int iRow) { // figure out what region you're in based on iCol and iRow
-		// TODO
-		return null; // 1-dim array from a given region 
+	public int[] getRegion(int iCol, int iRow) { // figure out what region you're in based on iCol and iRow
+		int[] reg = new int [iSize];
+		
+		int r = ((iRow/iSqrtSize) * iSqrtSize) + (iCol/iSqrtSize);
+		
+		int i = ( r % iSqrtSize)* iSqrtSize;
+		int j = (r / iSqrtSize)* iSqrtSize;
+		int iMax = i + iSqrtSize;
+		int jMax = j + iSqrtSize;
+		int iCnt=0;
+		
+		for (; j<jMax ; j++) {
+			for (i=(r% iSqrtSize)* iSqrtSize ; i<iMax;i++) {
+				reg[iCnt++]= super.getLatinSquare()[j][i];
+			}
+		}
+		return reg;
 	}
 	
 	public int[] getRegion(int r) { // pass in a given region, get back a 1-dim array of region
