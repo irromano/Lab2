@@ -6,18 +6,18 @@ import pkgHelper.LatinSquare;
 
 public class Sudoku extends LatinSquare {	
 
-	private int iSize;	// Lenght of the width/height of the Sudoku puzzle
+	private int iSize;	// Length of the width/height of the Sudoku puzzle
 	private int iSqrtSize; // SquareRoot of the iSize. If the iSize is 9, iSqrtSize will be calcd as 3
 
-	//public Sudoku() {
-		//super();
-		//  Auto-generated constructor stub
-	//}
+/*	public Sudoku() {
+		super();
+		  Auto-generated constructor stub
+	}*/
 
 	public Sudoku(int[][] puzzle) {
 		super.setLatinSquare(puzzle);
-		iSize = super.getLatinSquare()[0].length;
-		iSqrtSize = (int) Math.sqrt(super.getLatinSquare()[0].length);
+		iSize = super.getLatinSquare().length;
+		iSqrtSize = (int) Math.sqrt(super.getLatinSquare().length);
 
 	}
 
@@ -68,6 +68,17 @@ public class Sudoku extends LatinSquare {
 	public boolean isPartialSudoku() { // return true if it's a LatinSquare, if each element in first row is in each region, if there is at least one zero
 		boolean isPartialSudoku = true;
 		
+		for (int i = 0; i<super.getLatinSquare().length; i++)
+		if (super.getLatinSquare()[i].length != super.getLatinSquare().length)
+			return false;
+		
+		for (int i = 1; i < iSize; i++) {
+			if (iSize != super.getLatinSquare()[i].length) {
+				return false;
+			}
+		}
+		
+		
 		for (int i = 0; i < iSize; i++) {
 			if (hasDuplicatesPartial(super.getRow(i)))
 				return false;
@@ -86,17 +97,16 @@ public class Sudoku extends LatinSquare {
 		if (!super.ContainsZero())
 			isPartialSudoku = false;
 		
-		for (int i = 1; i < iSize; i++) {
-			if (iSize != super.getLatinSquare()[i].length) {
-				return false;
-			}
-		}
 		
 		return isPartialSudoku;
 	}
 	
 	public boolean isSudoku() { // is a partial sudoku and has no zeros
 		boolean isSudoku = true;
+		for (int i = 0; i<super.getLatinSquare().length; i++)
+		if (super.getLatinSquare()[i].length != super.getLatinSquare().length)
+			return false;
+		
 		if (!super.isLatinSquare())
 			return false;
 		
@@ -119,14 +129,16 @@ public class Sudoku extends LatinSquare {
 		return isSudoku; //TODO
 	}
 	
-	public boolean isValidValue(int iCol, int iRow, int iValue) { // test to see if given value would work for a given column / row
-		// TODO
-		return false; //TODO
+	public boolean isValidValue(int iCol, int iRow, int iValue) {
+		int[][] holdArray = Arrays.copyOf(super.getLatinSquare(), iSize);
+		holdArray[iRow][iCol] = iValue;
+		Sudoku sd = new Sudoku(holdArray);
+		return sd.isPartialSudoku() || sd.isSudoku();
 	}
 	
 	public boolean hasDuplicatesPartial(int[] arr) {
 
-		// TODO: Return 'true' if any element in arr is duplicate
+		// Return 'true' if any non-zero element in arr is duplicate 
 
 		boolean hasDuplicates = false;
 		int[] sortedArray = Arrays.copyOf(arr, arr.length);
